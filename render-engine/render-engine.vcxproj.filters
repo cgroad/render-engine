@@ -66,5 +66,7 @@
     <None Include="Debug\render-engine.tlog\link.read.1.tlog" />
     <None Include="Debug\render-engine.tlog\link.write.1.tlog" />
     <None Include="Debug\render-engine.tlog\render-engine.lastbuildstate" />
+    <None Include="resource\shader\vertex_demo.shader" />
+    <None Include="resource\shader\fragment_demo.shader" />
   </ItemGroup>
 </Project>

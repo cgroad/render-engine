@@ -153,6 +153,8 @@
     <None Include="Debug\render-engine.tlog\render-engine.lastbuildstate" />
     <None Include="Debug\vc141.idb" />
     <None Include="Debug\vc141.pdb" />
+    <None Include="resource\shader\fragment_demo.shader" />
+    <None Include="resource\shader\vertex_demo.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

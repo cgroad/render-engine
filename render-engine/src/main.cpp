@@ -1,33 +1,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <Core/Shader.h>
 
 void CreateHelloWindow();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void prepareRenderData();
-void processRender();
-int shaderProgram;
+void processRender(Shader demoShader);
 unsigned int VBO, VAO, EBO;
-
-const char *vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"layout (location = 1) in vec4 aColor;\n"
-"out vec4 color;\n"
-"void main()\n"
-"{\n"
-"	gl_Position = vec4(-aPos.x, -aPos.y, aPos.z, 1.0);\n"
-"	color = aColor;\n"
-"}\0";
-
-const char *fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"in vec4 color;\n"
-"uniform vec4 globalColor;"
-"void main()\n"
-"{\n"
-"	FragColor = color;\n"
-"}\n\0";
 
 int main()
 {
@@ -59,10 +40,11 @@ void CreateHelloWindow()
 
 	glViewport(0, 0, 1136, 640);
 	prepareRenderData();
+	Shader demoShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader");
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-		processRender();
+		processRender(demoShader);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -96,34 +78,6 @@ void processInput(GLFWwindow* window)
 
 void  prepareRenderData()
 {
-	int success;
-	char infoLog[512];
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << infoLog << std::endl;
-	}
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << infoLog << std::endl;
-	}
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
 	float vertices[] = {
 	0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f,   // 顶点 红色
 	0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f,  // 右下角 绿色
@@ -161,18 +115,15 @@ void  prepareRenderData()
 	std::cout << attributesNum << std::endl;
 }
 
-void processRender()
+void processRender(Shader demoShader)
 {
 	glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	float time = glfwGetTime();
-	float alpha = sin(time) / 2.0f + 0.5f;
-	int colorLocation = glGetUniformLocation(shaderProgram, "globalColor");
-
-	glUseProgram(shaderProgram);
-	glUniform4f(colorLocation, alpha, 0.0f, 0.0f, 1.0f);
-	
+	float r = sin(time) / 2.0f + 0.5f;
+	demoShader.setColor("globalColor", r, 0.0f, 0.0f, 0.5f);
+	demoShader.use();
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
