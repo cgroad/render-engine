@@ -2,14 +2,18 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <Core/Shader.h>
-
+#include <Core/Texture.h>
 void CreateHelloWindow();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void prepareRenderData();
-void processRender(Shader demoShader);
+void processRender();
 unsigned int VBO, VAO, EBO;
-
+Texture* texture;
+Texture* textureSmile;
+Shader* demoShader;
+float smileValue = 1;
+float scale = -1;
 int main()
 {
 	glfwInit();
@@ -40,11 +44,10 @@ void CreateHelloWindow()
 
 	glViewport(0, 0, 1136, 640);
 	prepareRenderData();
-	Shader demoShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader");
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-		processRender(demoShader);
+		processRender();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -79,9 +82,10 @@ void processInput(GLFWwindow* window)
 void  prepareRenderData()
 {
 	float vertices[] = {
-	0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f,   // 顶点 红色
-	0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f,  // 右下角 绿色
-	-0.5f, -0.5f, 0.0f,0.0f, 0.0f, 1.0f, 0.5f // 左下角 蓝色
+//	------位置------ ----------颜色----------- -------纹理坐标------
+	0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f, 0.5f, 1.0f,   // 顶点 红色
+	0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 1.0f, 0.0f, // 右下角 绿色
+	-0.5f, -0.5f, 0.0f,0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 0.0f // 左下角 蓝色
 	};
 
 	unsigned int indices[] = { // 注意索引从0开始! 
@@ -102,28 +106,47 @@ void  prepareRenderData()
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	int attributesNum;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &attributesNum);
-	std::cout << attributesNum << std::endl;
+
+	texture = new Texture("resource/texture/myFamily.jpg", GL_TEXTURE0, GL_RGB);
+	textureSmile = new Texture("resource/texture/smile.png", GL_TEXTURE1, GL_RGBA);
+	demoShader = new Shader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader");
 }
 
-void processRender(Shader demoShader)
+void processRender()
 {
 	glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	
+	texture->use();
+	textureSmile->use();
+	demoShader->use();
 
-	float time = glfwGetTime();
-	float r = sin(time) / 2.0f + 0.5f;
-	demoShader.setColor("globalColor", r, 0.0f, 0.0f, 0.5f);
-	demoShader.use();
+	demoShader->setInt("myTexture1", 0);
+	demoShader->setInt("myTexture2", 1);
+	//让笑脸眼神动起来
+	if (smileValue>=1)
+	{
+		scale = -1;
+	}
+	if (smileValue <= 0.8)
+	{
+		scale = 1;
+	}
+	smileValue += scale * 0.0001;
+	demoShader->setFloat("smileValue", smileValue);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

@@ -33,6 +33,12 @@
     <ClInclude Include="include\KHR\khrplatform.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\std_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -45,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,7 +75,12 @@
     <None Include="Debug\render-engine.tlog\link.read.1.tlog" />
     <None Include="Debug\render-engine.tlog\link.write.1.tlog" />
     <None Include="Debug\render-engine.tlog\render-engine.lastbuildstate" />
-    <None Include="resource\shader\vertex_demo.shader" />
-    <None Include="resource\shader\fragment_demo.shader" />
+    <None Include="resource\Shader\fragment_demo.shader" />
+    <None Include="resource\Shader\vertex_demo.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\Texture\myFamily.JPG">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

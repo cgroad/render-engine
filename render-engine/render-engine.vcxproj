@@ -121,11 +121,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Core\Texture.h" />
     <ClInclude Include="include\Core\Shader.h" />
     <ClInclude Include="include\glad\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
+    <ClInclude Include="include\std_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -133,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Shader.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Core\Texture.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +156,11 @@
     <None Include="Debug\render-engine.tlog\render-engine.lastbuildstate" />
     <None Include="Debug\vc141.idb" />
     <None Include="Debug\vc141.pdb" />
-    <None Include="resource\shader\fragment_demo.shader" />
-    <None Include="resource\shader\vertex_demo.shader" />
+    <None Include="resource\Shader\fragment_demo.shader" />
+    <None Include="resource\Shader\vertex_demo.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\Texture\myFamily.JPG" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
