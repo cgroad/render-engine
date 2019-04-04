@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <Core/MathTool.h>
 using namespace std;
 
 class Shader
@@ -17,4 +18,5 @@ public:
 	void setInt(const string &name, int value);
 	void setFloat(const string &name, float value);
 	void setColor(const string &name, float r, float g, float b, float a);
+	void setMat4(const string &name, glm::mat4 matrix);
 };

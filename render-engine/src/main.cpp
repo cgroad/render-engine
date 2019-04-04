@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Core/Shader.h>
 #include <Core/Texture.h>
+#include <Core/MathTool.h>
 void CreateHelloWindow();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -14,6 +15,8 @@ Texture* textureSmile;
 Shader* demoShader;
 float smileValue = 1;
 float scale = -1;
+MathTool *mathTool = new MathTool();
+
 int main()
 {
 	glfwInit();
@@ -22,6 +25,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	CreateHelloWindow();
+
 	return 0;
 }
 
@@ -136,6 +140,7 @@ void processRender()
 
 	demoShader->setInt("myTexture1", 0);
 	demoShader->setInt("myTexture2", 1);
+	demoShader->setMat4("transform", mathTool->getTestMat4());
 	//让笑脸眼神动起来
 	if (smileValue>=1)
 	{
