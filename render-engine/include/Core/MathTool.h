@@ -10,6 +10,7 @@ public:
 	~MathTool();
 	void test();
 	glm::mat4 getTestMat4();
+	glm::mat4 getMVPMat4(glm::vec3 translate);
 	float getPercent(int loopSecond);
 private:
 
