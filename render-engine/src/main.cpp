@@ -6,6 +6,7 @@
 #include <Core/MathTool.h>
 void CreateHelloWindow();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void processInput(GLFWwindow* window);
 void prepareRenderData();
 void processRender();
@@ -51,7 +52,9 @@ void CreateHelloWindow()
 		return;
 	}
 	glfwMakeContextCurrent(window);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		printf("Failed to initialize GLAD");
@@ -79,6 +82,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	std::cout << xpos << "  " << ypos << std::endl;
+}
+
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -92,6 +100,23 @@ void processInput(GLFWwindow* window)
 	else if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	float cameraSpeed = 0.02f;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		mathTool->CameraPos += mathTool->CameraDir * cameraSpeed;
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		mathTool->CameraPos -= mathTool->CameraDir * cameraSpeed;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		mathTool->CameraPos -= glm::normalize(glm::cross(mathTool->CameraUp, mathTool->CameraDir)) * cameraSpeed;
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		mathTool->CameraPos += glm::normalize(glm::cross(mathTool->CameraUp, mathTool->CameraDir)) * cameraSpeed;
 	}
 }
 
