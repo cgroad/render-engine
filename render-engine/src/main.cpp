@@ -1,9 +1,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <Core/Shader.h>
-#include <Core/Texture.h>
 #include <Core/MathTool.h>
+#include <Core/Camera.h>
+#include <core/Cube.h>
+#include <vector>
 void CreateHelloWindow();
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -11,11 +12,11 @@ void processInput(GLFWwindow* window);
 void prepareRenderData();
 void processRender();
 unsigned int VBO, VAO, EBO;
-Texture* texture;
-Shader* demoShader;
 float smileValue = 1;
 float scale = -1;
 MathTool *mathTool = new MathTool();
+Camera *camera = Camera::getInstance();
+vector<Cube *> cubes(10);
 
 glm::vec3 cubePositions[] = {
   glm::vec3(0.0f,  0.0f,  0.0f),
@@ -36,7 +37,6 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 	CreateHelloWindow();
 
 	return 0;
@@ -62,17 +62,16 @@ void CreateHelloWindow()
 	}
 
 	glViewport(0, 0, 1136, 640);
+	glEnable(GL_DEPTH_TEST);
 	prepareRenderData();
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 		processRender();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
 
 	glfwTerminate();
 }
@@ -104,101 +103,30 @@ void processInput(GLFWwindow* window)
 	float cameraSpeed = 0.02f;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		mathTool->CameraPos += mathTool->CameraDir * cameraSpeed;
+		camera->CameraPos += camera->CameraDir * cameraSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		mathTool->CameraPos -= mathTool->CameraDir * cameraSpeed;
+		camera->CameraPos -= camera->CameraDir * cameraSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		mathTool->CameraPos -= glm::normalize(glm::cross(mathTool->CameraUp, mathTool->CameraDir)) * cameraSpeed;
+		camera->CameraPos -= glm::normalize(glm::cross(camera->CameraUp, camera->CameraDir)) * cameraSpeed;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		mathTool->CameraPos += glm::normalize(glm::cross(mathTool->CameraUp, mathTool->CameraDir)) * cameraSpeed;
+		camera->CameraPos += glm::normalize(glm::cross(camera->CameraUp, camera->CameraDir)) * cameraSpeed;
 	}
 }
 
 void  prepareRenderData()
 {
-	float vertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-
-	unsigned int indices[] = { // 注意索引从0开始! 
-		2, 1, 0, // 第一个三角形
-		1, 2, 3  // 第二个三角形
-	};
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	
-
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	int attributesNum;
-	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &attributesNum);
-
-	texture = new Texture("resource/texture/t1.png", GL_TEXTURE0, GL_RGB);
-	demoShader = new Shader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader");
-
-	glEnable(GL_DEPTH_TEST);
+	for (int i = 0; i < cubes.size(); i++)
+	{
+		cubes[i] = new Cube();
+		cubes[i]->position = cubePositions[i];
+		cubes[i]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader", "resource/texture/t1.png");
+	}
 }
 
 void processRender()
@@ -206,17 +134,12 @@ void processRender()
 	glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	texture->use();
-	demoShader->use();
-	demoShader->setInt("myTexture1", 0);
-
-	glBindVertexArray(VAO);
-	for (int i=0;i<10;i++)
+	for (int i=0;i< cubes.size();i++)
 	{
-		demoShader->setMat4("transform", mathTool->getMVPMat4(cubePositions[i]));
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		if (cubes[i] != NULL)
+		{
+			cubes[i]->draw();
+		}
 	}
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 }
 

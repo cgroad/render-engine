@@ -121,6 +121,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Core\Camera.h" />
+    <ClInclude Include="include\Core\Cube.h" />
     <ClInclude Include="include\Core\MathTool.h" />
     <ClInclude Include="include\Core\Texture.h" />
     <ClInclude Include="include\Core\Shader.h" />
@@ -537,6 +539,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\Texture\myFamily.JPG" />
+    <Image Include="resource\texture\t1.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
