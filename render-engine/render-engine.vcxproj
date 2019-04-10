@@ -535,6 +535,7 @@
     <None Include="include\glm\gtx\vector_query.inl" />
     <None Include="include\glm\gtx\wrap.inl" />
     <None Include="resource\Shader\fragment_demo.shader" />
+    <None Include="resource\shader\fragment_for_light.shader" />
     <None Include="resource\Shader\vertex_demo.shader" />
   </ItemGroup>
   <ItemGroup>

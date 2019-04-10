@@ -1211,6 +1211,7 @@
     <None Include="include\glm\gtx\wrap.inl">
       <Filter>头文件</Filter>
     </None>
+    <None Include="resource\shader\fragment_for_light.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\Texture\myFamily.JPG">

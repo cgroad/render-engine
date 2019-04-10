@@ -19,4 +19,5 @@ public:
 	void setFloat(const string &name, float value);
 	void setColor(const string &name, float r, float g, float b, float a);
 	void setMat4(const string &name, glm::mat4 matrix);
+	void setVec3(const string &name, glm::vec3 value);
 };

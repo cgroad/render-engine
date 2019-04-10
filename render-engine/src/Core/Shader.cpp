@@ -85,6 +85,11 @@ void Shader::setColor(const string &name, float r, float g, float b, float a)
 	glUniform4f(glGetUniformLocation(ID, name.c_str()), r, g, b, a);
 }
 
+void Shader::setVec3(const string &name, glm::vec3 value)
+{
+	glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, glm::value_ptr(value));
+}
+
 void Shader::setMat4(const string &name, glm::mat4 matrix)
 {
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));

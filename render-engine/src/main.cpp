@@ -16,19 +16,10 @@ float smileValue = 1;
 float scale = -1;
 MathTool *mathTool = new MathTool();
 Camera *camera = Camera::getInstance();
-vector<Cube *> cubes(10);
+vector<Cube *> cubes(2);
 
 glm::vec3 cubePositions[] = {
-  glm::vec3(0.0f,  0.0f,  0.0f),
-  glm::vec3(2.0f,  5.0f, -15.0f),
-  glm::vec3(-1.5f, -2.2f, -2.5f),
-  glm::vec3(-3.8f, -2.0f, -12.3f),
-  glm::vec3(2.4f, -0.4f, -3.5f),
-  glm::vec3(-1.7f,  3.0f, -7.5f),
-  glm::vec3(1.3f, -2.0f, -2.5f),
-  glm::vec3(1.5f,  2.0f, -2.5f),
-  glm::vec3(1.5f,  0.2f, -1.5f),
-  glm::vec3(-1.3f,  1.0f, -1.5f)
+  glm::vec3(0.0f, 0.0f, 0.0f)
 };
 
 int main()
@@ -100,7 +91,7 @@ void processInput(GLFWwindow* window)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	float cameraSpeed = 0.02f;
+	float cameraSpeed = 0.002f;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		camera->CameraPos += camera->CameraDir * cameraSpeed;
@@ -121,12 +112,16 @@ void processInput(GLFWwindow* window)
 
 void  prepareRenderData()
 {
-	for (int i = 0; i < cubes.size(); i++)
-	{
-		cubes[i] = new Cube();
-		cubes[i]->position = cubePositions[i];
-		cubes[i]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader", "resource/texture/t1.png");
-	}
+	cubes[0] = new Cube();
+	cubes[0]->position = cubePositions[0];
+	cubes[0]->rotation = glm::vec3(0.0f, 45.0f, 0.0f);
+	cubes[0]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader", "resource/texture/t1.png");
+
+	//µÆ¹â¶ÔÏó
+	cubes[1] = new Cube();
+	cubes[1]->position = camera->GetLightPos();
+	cubes[1]->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	cubes[1]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_for_light.shader", "resource/texture/t1.png");
 }
 
 void processRender()
