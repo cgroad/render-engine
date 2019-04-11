@@ -19,7 +19,7 @@ Camera *camera = Camera::getInstance();
 vector<Cube *> cubes(2);
 
 glm::vec3 cubePositions[] = {
-  glm::vec3(0.0f, 0.0f, 0.0f)
+  glm::vec3(0.0f, 0.2f, -1.0f)
 };
 
 int main()
@@ -114,14 +114,14 @@ void  prepareRenderData()
 {
 	cubes[0] = new Cube();
 	cubes[0]->position = cubePositions[0];
-	cubes[0]->rotation = glm::vec3(0.0f, 45.0f, 0.0f);
-	cubes[0]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader", "resource/texture/t1.png");
+	cubes[0]->rotation = glm::vec3(20.0f, 35.0f, 0.0f);
+	cubes[0]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_demo.shader", "resource/texture/box_diffuse.png");
 
 	//µÆ¹â¶ÔÏó
 	cubes[1] = new Cube();
 	cubes[1]->position = camera->GetLightPos();
 	cubes[1]->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	cubes[1]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_for_light.shader", "resource/texture/t1.png");
+	cubes[1]->setShader("resource/shader/vertex_demo.shader", "resource/shader/fragment_for_light.shader", "resource/texture/box_diffuse.png");
 }
 
 void processRender()

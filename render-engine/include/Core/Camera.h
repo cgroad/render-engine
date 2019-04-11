@@ -6,7 +6,7 @@
 class Camera
 {
 public:
-	glm::vec3 CameraPos = glm::vec3(0.0f, 0.9f, 1.5f);
+	glm::vec3 CameraPos = glm::vec3(0.0f, 1.0f, 1.5f);
 	glm::vec3 CameraDir = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 GetViewMatrix();
@@ -58,5 +58,5 @@ glm::vec3 Camera::GetLightColor()
 
 glm::vec3 Camera::GetLightPos()
 {
-	return glm::vec3(0.0f, 2.0f, -5.0f);
+	return glm::vec3(0.0f, 3.0f, -3.0f);
 }
