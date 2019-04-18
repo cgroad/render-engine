@@ -62,6 +62,7 @@ public:
 private:
 	vector<Mesh> meshes;
 	string directory = "resource/model";
+	vector<TextureStruct> texture_loaded;
 
 	void loadModel(string path);
 	void processNode(aiNode *node, const aiScene *scene);
@@ -170,11 +171,23 @@ vector<TextureStruct> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType
 	{
 		aiString str;
 		mat->GetTexture(type, i, &str);
+		bool skip = false;
+		for (unsigned int j=0;j<texture_loaded.size();j++)
+		{
+			if (std::strcmp(texture_loaded[j].path.data(), str.C_Str()) == 0)
+			{
+				skip = true;
+				break;
+			}
+		}
+		if(skip)
+			continue;
 		TextureStruct texture;
 		texture.id = TextureFromFile(str.C_Str(), directory);
 		texture.type = typeName;
 		texture.path = str.C_Str();
 		textures.push_back(texture);
+		texture_loaded.push_back(texture);
 	}
 	return textures;
 }

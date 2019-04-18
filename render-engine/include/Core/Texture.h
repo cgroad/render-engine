@@ -9,5 +9,6 @@ public:
 	void use();
 protected:
 	unsigned int textureId;
+	int textureUnit;
 private:
 };

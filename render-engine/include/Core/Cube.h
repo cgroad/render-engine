@@ -115,6 +115,7 @@ glm::mat4 Cube::getModelMatrix()
 
 void Cube::draw()
 {
+	glBindVertexArray(VAO);
 	texture->use();
 	texture2->use();
 	texture3->use();
@@ -136,6 +137,8 @@ void Cube::draw()
 
 	shader->setFloat("material.shininess", 32.0f);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+
 }
 
 Cube::~Cube()

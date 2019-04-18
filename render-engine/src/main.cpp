@@ -155,13 +155,13 @@ void processRender()
 	glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	//for (unsigned int i=0;i< cubes.size();i++)
-	//{
-	//	if (cubes[i] != NULL)
-	//	{
-	//		cubes[i]->draw();
-	//	}
-	//}
+	for (unsigned int i=0;i< cubes.size();i++)
+	{
+		if (cubes[i] != NULL)
+		{
+			cubes[i]->draw();
+		}
+	}
 	model->Draw(*modelShader);
 }
 

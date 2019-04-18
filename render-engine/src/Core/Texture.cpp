@@ -4,8 +4,9 @@
 #include "glad/glad.h"
 Texture::Texture(const char* path, int textureUnit, int colorMode)
 {
+	this->textureUnit = textureUnit;
 	glGenTextures(1, &textureId);
-	glActiveTexture(textureUnit);
+	glActiveTexture(this->textureUnit);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	//设置环绕方式和过滤方式
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -29,5 +30,6 @@ Texture::Texture(const char* path, int textureUnit, int colorMode)
 
 void Texture::use()
 {
+	glActiveTexture(this->textureUnit);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
