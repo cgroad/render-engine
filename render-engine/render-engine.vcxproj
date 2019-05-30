@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Core\ARE3D.h" />
     <ClInclude Include="include\assimp\ai_assert.h" />
     <ClInclude Include="include\assimp\anim.h" />
     <ClInclude Include="include\assimp\BaseImporter.h" />
@@ -455,6 +456,7 @@
     <Library Include="lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Core\ARE3D.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="src\Core\MathTool.cpp" />
     <ClCompile Include="src\Core\Shader.cpp" />

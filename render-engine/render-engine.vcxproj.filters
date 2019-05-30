@@ -1005,6 +1005,9 @@
     <ClInclude Include="include\Core\Base\Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\ARE3D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -1026,6 +1029,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\MathTool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Core\ARE3D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
