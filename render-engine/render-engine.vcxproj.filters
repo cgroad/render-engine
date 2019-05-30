@@ -1002,6 +1002,9 @@
     <ClInclude Include="include\assimp\config.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\Base\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
