@@ -1,4 +1,4 @@
-#include "ARE3D.h"
+#include "Core/ARE3D.h"
 #include <iostream>
 using namespace std;
 DLLEXP bool areInit()

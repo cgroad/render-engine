@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Demo\AREDemo.h" />
     <ClInclude Include="include\Core\ARE3D.h" />
     <ClInclude Include="include\assimp\ai_assert.h" />
     <ClInclude Include="include\assimp\anim.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="include\Core\Model.h" />
     <ClInclude Include="include\Core\Texture.h" />
     <ClInclude Include="include\Core\Shader.h" />
+    <ClInclude Include="include\Demo\Define.h" />
     <ClInclude Include="include\glad\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
@@ -456,7 +458,12 @@
     <Library Include="lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Core\ARE3D.cpp" />
+    <ClCompile Include="src\Core\Camera.cpp" />
+    <ClCompile Include="src\Core\Cube.cpp" />
+    <ClCompile Include="src\Core\Mesh.cpp" />
+    <ClCompile Include="src\Core\Model.cpp" />
+    <ClCompile Include="src\Demo\AREDemo.cpp" />
+    <ClCompile Include="src\Core\ARE3D.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="src\Core\MathTool.cpp" />
     <ClCompile Include="src\Core\Shader.cpp" />

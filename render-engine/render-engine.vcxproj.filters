@@ -1008,6 +1008,12 @@
     <ClInclude Include="include\Core\ARE3D.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Demo\AREDemo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Demo\Define.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -1031,7 +1037,22 @@
     <ClCompile Include="src\Core\MathTool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="include\Core\ARE3D.cpp">
+    <ClCompile Include="src\Core\ARE3D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Demo\AREDemo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Cube.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
